@@ -1,0 +1,642 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Misi Sumber Malaysia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Susun atur: satu lajur sempit. Skrin mula berupa kad hero hijau-biru dengan garis kontur, kemudian HUD melekat di atas kad soalan. */
+:root{
+  --bg:#EAF0ED;
+  --surface:#FFFFFF;
+  --surface-2:#F2F6F4;
+  --ink:#10282A;
+  --muted:#4F6769;
+  --line:#CBD9D5;
+  --brand:#0B7A75;
+  --brand-ink:#FFFFFF;
+  --gold:#F0A800;
+  --gold-ink:#3A2A00;
+  --good:#1B7F47;
+  --good-bg:#DDF3E6;
+  --bad:#C23B3B;
+  --bad-bg:#FBE3E1;
+  --focus:#0B7A75;
+  --font-display:"Bricolage Grotesque","Trebuchet MS","Segoe UI",sans-serif;
+  --font-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1B1D;--surface:#12292C;--surface-2:#0E2124;--ink:#E6F2EF;--muted:#9DB6B2;--line:#264548;
+    --brand:#2FB7AF;--brand-ink:#04201F;--gold:#F6B73C;--gold-ink:#2B1E00;
+    --good:#58CF8B;--good-bg:#12382A;--bad:#F58A84;--bad-bg:#3B1B1B;--focus:#2FB7AF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1B1D;--surface:#12292C;--surface-2:#0E2124;--ink:#E6F2EF;--muted:#9DB6B2;--line:#264548;
+  --brand:#2FB7AF;--brand-ink:#04201F;--gold:#F6B73C;--gold-ink:#2B1E00;
+  --good:#58CF8B;--good-bg:#12382A;--bad:#F58A84;--bad-bg:#3B1B1B;--focus:#2FB7AF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:16px;line-height:1.5;
+  padding-block:20px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:660px;margin:0 auto}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Skrin mula */
+.hero{position:relative;overflow:hidden;background:var(--brand);color:var(--brand-ink);border-radius:20px;padding:28px 22px 26px;display:grid;gap:12px}
+.hero svg{position:absolute;right:-60px;top:-40px;width:420px;max-width:none;fill:none;stroke:currentColor;stroke-width:1.5;opacity:.22;pointer-events:none}
+.hero>*{position:relative}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+.hero h1{font-size:clamp(2.2rem,9vw,3.4rem);font-weight:800}
+.hero p{max-width:34ch;font-size:1.05rem}
+.sect{margin-top:26px;display:grid;gap:12px}
+.sect h2{font-size:1.15rem}
+.modes{display:grid;gap:10px}
+.mode{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;text-align:left;width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .15s,transform .15s}
+.mode:hover{border-color:var(--brand)}
+.mode:active{transform:scale(.99)}
+.mode .m-t{font-family:var(--font-display);font-weight:800;font-size:1.1rem}
+.mode .m-s{grid-column:1;color:var(--muted);font-size:.92rem}
+.mode .m-n{grid-row:1/3;grid-column:2;text-align:right;font-weight:700}
+.mode .m-n small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
+.mode.full{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mode.full .m-s,.mode.full .m-n small{color:var(--bg);opacity:.75}
+.mode.full:hover{border-color:var(--gold)}
+.toggles{display:flex;flex-wrap:wrap;gap:8px 22px}
+.toggles label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500}
+.toggles input{width:20px;height:20px;accent-color:var(--brand)}
+.rules{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.rules div{border-top:2px solid var(--line);padding-top:8px;min-width:0}
+.rules b{display:block;font-family:var(--font-display);font-size:1rem}
+.rules span{color:var(--muted);font-size:.92rem}
+.credit{margin-top:22px;color:var(--muted);font-size:.85rem}
+
+/* HUD */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:6px 0 10px;display:grid;gap:8px}
+.hud-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.lvl{font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:0}
+.sc{text-align:right;line-height:1}
+.sc small{display:block;font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.sc b{font-family:var(--font-display);font-size:1.7rem;font-weight:800}
+.bars{display:grid;gap:6px}
+.row{display:flex;align-items:center;gap:10px}
+.track{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:100%;border-radius:99px;background:var(--brand);transform-origin:left;transition:transform .35s ease}
+#tfill{transition:transform .1s linear}
+#tfill.warn{background:var(--gold)}
+#tfill.danger{background:var(--bad)}
+.row .lab{font-size:.82rem;font-weight:600;color:var(--muted);min-width:4.2em;text-align:right}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:.85rem;font-weight:600}
+.chip.hot{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.life{padding:5px 11px;border-radius:99px;border:1.5px solid var(--brand);background:transparent;color:var(--brand);font-weight:700;font-size:.85rem;cursor:pointer}
+.life:disabled{opacity:.4;cursor:not-allowed}
+.quit{margin-left:auto;background:none;border:0;color:var(--muted);text-decoration:underline;font-size:.85rem;cursor:pointer;padding:6px 2px}
+
+/* Kad soalan */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 16px;display:grid;gap:14px;margin-top:4px}
+.ms{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.qt{font-family:var(--font-display);font-weight:600;font-size:1.22rem;line-height:1.3}
+.stim{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px}
+.stim ul,.stim ol{margin:0;padding-left:1.2em;display:grid;gap:2px}
+.stim ol{list-style:upper-roman;padding-left:2em}
+.stim .kv{display:flex;gap:12px;flex-wrap:wrap}
+.stim .kv b{min-width:8.5em}
+.photo,.mapfig{margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.photo{padding:14px;display:grid;gap:4px}
+.photo .tag{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+.photo figcaption{font-weight:500}
+.mapfig svg{display:block;width:100%;height:auto;max-height:240px}
+.mapfig figcaption{padding:6px 12px 8px;font-size:.8rem;color:var(--muted);border-top:1px solid var(--line)}
+.land{fill:var(--line);stroke:var(--muted);stroke-width:1.2}
+.land.faint{fill:none;stroke-dasharray:3 4;opacity:.6}
+.pin circle{fill:var(--gold);stroke:var(--ink);stroke-width:1.5}
+.pin text{font-family:var(--font-display);font-weight:800;font-size:13px;fill:var(--gold-ink);text-anchor:middle;dominant-baseline:central}
+.compass{fill:var(--muted);font-family:var(--font-display);font-weight:700;font-size:11px;text-anchor:middle}
+.compass-l{stroke:var(--muted);stroke-width:1.4}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;padding:11px 12px;min-height:52px;border-radius:12px;border:2px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover:not(:disabled){border-color:var(--brand)}
+.opt .k{flex:0 0 30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line);font-family:var(--font-display);font-weight:800}
+.opt .t{flex:1;min-width:0;padding-top:3px;overflow-wrap:anywhere}
+.opt .mark{flex:0 0 22px;font-weight:800;padding-top:3px}
+.opt:disabled{cursor:default;color:var(--ink)}
+.opt.correct{border-color:var(--good);background:var(--good-bg)}
+.opt.correct .mark{color:var(--good)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.wrong .mark{color:var(--bad)}
+.opt.gone{opacity:.35;text-decoration:line-through}
+.shake{animation:shake .35s}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.fb{border-radius:14px;padding:14px;display:grid;gap:8px}
+.fb.ok{background:var(--good-bg)}
+.fb.no{background:var(--bad-bg)}
+.fb h3{font-size:1.1rem}
+.fb.ok h3{color:var(--good)}
+.fb.no h3{color:var(--bad)}
+.fb .calc{font-size:.85rem;color:var(--muted)}
+.fb .ref{font-size:.82rem;font-weight:600;color:var(--muted)}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:13px 20px;border-radius:12px;border:2px solid var(--brand);background:var(--brand);color:var(--brand-ink);font-weight:700;cursor:pointer;min-height:48px}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn:hover{filter:brightness(1.06)}
+.btn.block{width:100%}
+
+/* Keputusan */
+.res{display:grid;gap:20px}
+.res-top{display:grid;justify-items:center;gap:10px;text-align:center;padding:10px 0 0}
+.ring{--p:0;width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p)*1%),var(--line) 0)}
+.ring div{width:118px;height:118px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:2rem}
+.res h2{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+.stat small{display:block;color:var(--muted);font-size:.78rem;font-weight:600}
+.stat b{font-family:var(--font-display);font-size:1.35rem}
+.chbars{display:grid;gap:10px}
+.chbars .row b{min-width:4.5em;font-size:.9rem}
+.chbars .pct{min-width:3.2em;text-align:right;font-weight:700;font-size:.9rem}
+.actions{display:grid;gap:10px}
+details.review{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 14px}
+details.review summary{cursor:pointer;font-weight:700;padding:10px 0}
+.review ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;padding-bottom:14px}
+.review li{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:4px}
+.review .you{color:var(--bad);font-size:.92rem}
+.review .rt{color:var(--good);font-size:.92rem;font-weight:600}
+.review .why{color:var(--muted);font-size:.9rem}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+@media (max-width:420px){
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .qt{font-size:1.1rem}
+}
+</style>
+
+<div class="wrap">
+
+<section id="start">
+  <div class="hero">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <g transform="translate(200 150)">
+        <path id="c1" d="M-120-10C-130-80-40-120 40-100S150-40 140 20 90 120 10 120-110 70-120-10z"/>
+        <path transform="scale(.82)" d="M-120-10C-130-80-40-120 40-100S150-40 140 20 90 120 10 120-110 70-120-10z"/>
+        <path transform="scale(.64)" d="M-120-10C-130-80-40-120 40-100S150-40 140 20 90 120 10 120-110 70-120-10z"/>
+        <path transform="scale(.46)" d="M-120-10C-130-80-40-120 40-100S150-40 140 20 90 120 10 120-110 70-120-10z"/>
+        <path transform="scale(.28)" d="M-120-10C-130-80-40-120 40-100S150-40 140 20 90 120 10 120-110 70-120-10z"/>
+      </g>
+    </svg>
+    <div class="eyebrow">Geografi Tingkatan 1 · Bab 6 dan 7</div>
+    <h1>Misi Sumber Malaysia</h1>
+    <p>40 soalan tentang sumber semula jadi dan kegiatan ekonomi. Jawab cepat, kekalkan rentetan betul, dan capai pangkat Pakar Geografi.</p>
+  </div>
+
+  <div class="sect">
+    <h2>Pilih misi</h2>
+    <div class="modes">
+      <button class="mode" type="button" data-mode="1">
+        <span class="m-t">Tahap 1 · Sumber Semula Jadi</span>
+        <span class="m-s">Bab 6 · boleh baharu, mineral, tenaga, empangan</span>
+        <span class="m-n">20<small>soalan</small></span>
+      </button>
+      <button class="mode" type="button" data-mode="2">
+        <span class="m-t">Tahap 2 · Kegiatan Ekonomi</span>
+        <span class="m-s">Bab 7 · sektor, tanaman, dasar, GIS</span>
+        <span class="m-n">20<small>soalan</small></span>
+      </button>
+      <button class="mode full" type="button" data-mode="all">
+        <span class="m-t">Cabaran Penuh</span>
+        <span class="m-s">Kedua-dua tahap berturut-turut</span>
+        <span class="m-n">40<small>soalan</small></span>
+      </button>
+    </div>
+    <p id="bestline" class="num" style="color:var(--muted);font-size:.9rem" hidden></p>
+  </div>
+
+  <div class="sect">
+    <h2>Tetapan</h2>
+    <div class="toggles">
+      <label for="timer"><input type="checkbox" id="timer" checked> Pemasa 30 saat</label>
+      <label for="rand"><input type="checkbox" id="rand"> Soalan rawak dalam setiap tahap</label>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>Cara bermain</h2>
+    <div class="rules">
+      <div><b>Markah</b><span>100 mata setiap jawapan betul, tambah sehingga 50 mata bonus kelajuan.</span></div>
+      <div><b>Rentetan</b><span>Setiap jawapan betul berturut-turut menambah pengganda, sehingga ×2.</span></div>
+      <div><b>Bantuan</b><span>3 kali 50/50 dan 2 kali tambah masa. Guna 50/50 mengurangkan mata soalan itu.</span></div>
+    </div>
+  </div>
+  <p class="credit">Berdasarkan latihan Gerak Gempur, Bab 6 dan Bab 7. Kekunci A–D atau 1–4 untuk menjawab.</p>
+</section>
+
+<section id="game" hidden>
+  <div class="hud">
+    <div class="hud-top">
+      <div class="lvl" id="lvl"></div>
+      <div class="sc"><small>Markah</small><b class="num" id="score">0</b></div>
+    </div>
+    <div class="bars">
+      <div class="row"><div class="track"><div class="fill" id="pfill"></div></div><span class="lab num" id="ptxt"></span></div>
+      <div class="row" id="tbar"><div class="track"><div class="fill" id="tfill"></div></div><span class="lab num" id="ttxt"></span></div>
+    </div>
+    <div class="tools">
+      <span class="chip num" id="streak">Rentetan 0</span>
+      <button class="life" id="l5050" type="button">50/50 ×3</button>
+      <button class="life" id="lmore" type="button">+15 saat ×2</button>
+      <button class="quit" id="quit" type="button">Keluar</button>
+    </div>
+  </div>
+  <div class="card" id="card"></div>
+</section>
+
+<section id="end" hidden>
+  <div class="res" id="resbox"></div>
+</section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var CH={1:{n:"Tahap 1",t:"Sumber Semula Jadi"},2:{n:"Tahap 2",t:"Kegiatan Ekonomi"}};
+var PAIR=["I dan II","I dan IV","II dan III","III dan IV"];
+var LIMIT=30000;
+
+function P(c,ms,q,o,a,why,x){var r={c:c,ms:ms,q:q,o:o,a:a,why:why};if(x){for(var k in x)r[k]=x[k];}return r;}
+function photo(n,cap){return {t:"photo",n:n,cap:cap};}
+function map(m){return {t:"map",m:m};}
+
+var Q=[
+/* BAB 6 */
+P(1,"100","Apakah sumber boleh baharu yang terdapat di Malaysia?",["Hutan","Petroleum","Arang batu","Bijih timah"],0,
+  "Hutan boleh tumbuh semula atau ditanam semula. Petroleum, arang batu dan bijih timah tidak dapat diganti."),
+P(1,"100","Apakah ciri sumber boleh baharu?",["Cepat haus","Tidak akan habis","Tidak boleh diganti","Habis dalam jangka masa panjang"],1,
+  "Sumber boleh baharu dapat dipulihkan atau diganti semula, jadi tidak akan habis jika diurus dengan baik."),
+P(1,"100","Antara berikut, yang manakah tergolong dalam sumber boleh baharu kategori sumber air?",PAIR,1,
+  "Paya dan empangan ialah sumber air. Beris ialah bentuk muka bumi pantai, manakala aluvium ialah jenis tanih.",
+  {items:["Paya","Beris","Aluvium","Empangan"]}),
+P(1,"101","Apakah kebaikan sumber tenaga alternatif?",["Mesra alam","Menjimatkan kos","Meningkatkan taraf hidup penduduk","Berasaskan sumber tidak boleh baharu"],0,
+  "Sumber tenaga alternatif datang daripada sumber boleh baharu, jadi tidak mencemarkan alam sekitar."),
+P(1,"101","Foto 1 menunjukkan suatu jenis sumber tenaga alternatif. Apakah sumber tenaga alternatif tersebut?",["Tenaga suria","Tenaga angin","Tenaga biomas","Tenaga hidroelektrik"],0,
+  "Panel solar di bumbung menukarkan cahaya matahari kepada tenaga elektrik.",
+  {fig:photo("Foto 1","Panel solar dipasang pada bumbung sebuah rumah.")}),
+P(1,"101","Apakah sumber tenaga yang berkaitan dengan maklumat berikut?",["Tenaga suria","Tenaga angin","Tenaga biomas","Tenaga hidroelektrik"],2,
+  "Tenaga biomas dihasilkan daripada bahan buangan organisma hidup seperti sisa tumbuhan dan haiwan.",
+  {stim:["Dihasilkan daripada bahan buangan organisma hidup yang terdapat dalam sesuatu ekosistem atau kawasan."]}),
+P(1,"102","Apakah sumber tidak boleh baharu?",["Air","Tanih","Geoterma","Arang batu"],3,
+  "Arang batu terbentuk selama jutaan tahun dan tidak dapat diganti dalam masa singkat. Air, tanih dan geoterma ialah sumber boleh baharu."),
+P(1,"102","Antara berikut, yang manakah sumber mineral logam?",PAIR,2,
+  "Kuprum dan bijih besi ialah mineral logam. Kaolin ialah mineral bukan logam, manakala petroleum ialah mineral bahan api.",
+  {items:["Kaolin","Kuprum","Bijih besi","Petroleum"]}),
+P(1,"102","Antara berikut pasangan manakah yang betul?",["Bijih besi – Wayar","Bauksit – Bahan asas aluminium","Kuprum – Barangan kemas","Emas – Barangan piuter"],1,
+  "Bauksit ialah bahan mentah untuk menghasilkan aluminium. Wayar dibuat daripada kuprum, barangan kemas daripada emas, dan piuter daripada timah.",
+  {stim:["Jadual: Mineral – Kegunaan"]}),
+P(1,"103","Foto 2 menunjukkan aktiviti penerokaan sumber mineral bukan logam. Apakah kegunaan sumber mineral pasir dalam industri?",["Kimpalan","Pembinaan","Melebur besi","Barangan kaca"],3,
+  "Pasir silika ialah bahan mentah utama dalam industri pembuatan barangan kaca.",
+  {fig:photo("Foto 2","Sebuah lori mengangkut pasir daripada timbunan pasir di kawasan penerokaan.")}),
+P(1,"103","Foto 3 berkaitan dengan sumber mineral bukan logam. Apakah sumber mineral bukan logam dalam Foto 3?",["Pasir","Bauksit","Gas asli","Petroleum"],3,
+  "Mesin pam di stesen minyak mengagihkan petroleum seperti petrol dan diesel. Bauksit ialah mineral logam.",
+  {fig:photo("Foto 3","Mesin pam minyak di sebuah stesen minyak.")}),
+P(1,"104–105","Antara berikut pasangan manakah yang betul?",["Empangan Bersia – Sabah","Empangan Kenyir – Terengganu","Empangan Bakun – Perak","Empangan Tenom Pangi – Sarawak"],1,
+  "Empangan Bersia di Perak, Bakun di Sarawak dan Tenom Pangi di Sabah. Hanya Kenyir – Terengganu yang betul.",
+  {stim:["Jadual: Empangan – Negeri"]}),
+P(1,"104","Apakah faktor yang menyebabkan Malaysia berpotensi membangunkan kuasa hidroelektrik?",["Sungai yang panjang","Menerima jumlah hujan yang banyak","Pengaruh tiupan angin monsun","Panas dan lembap sepanjang tahun"],1,
+  "Hujan lebat sepanjang tahun mengekalkan paras air sungai dan empangan untuk menggerakkan turbin."),
+P(1,"104–105","Berdasarkan Peta 1, yang manakah Empangan Bakun?",["A","B","C","D"],2,
+  "Empangan Bakun terletak di Sarawak, iaitu kawasan C pada peta.",
+  {fig:map([["A",88,32],["B",128,100],["C",255,108],["D",345,52]])}),
+P(1,"107","Antara berikut, yang manakah sumber Hutan Pantai?",PAIR,2,
+  "Bebaru dan pokok ru tumbuh di kawasan pantai berpasir. Buluh dan periuk kera bukan tumbuhan utama hutan pantai.",
+  {items:["Buluh","Bebaru","Pokok ru","Periuk kera"]}),
+P(1,"108","Apakah sumber mineral yang dikaitkan dengan lokasi berikut?",["Emas","Petroleum","Bijih timah","Arang batu"],3,
+  "Merit-Pila dan Balingian di Sarawak serta Silimpopon di Sabah ialah lokasi perlombongan arang batu.",
+  {stim:["Merit-Pila","Silimpopon","Balingian"],bullets:true}),
+P(1,"110","Apakah jenis industri yang berkaitan dengan sumber petroleum di Malaysia?",["Industri perabot","Industri petrokimia","Industri pembinaan","Industri kraf tangan"],1,
+  "Petroleum menjadi bahan mentah industri petrokimia seperti plastik, baja dan cat."),
+P(1,"110","Apakah kepentingan sumber semula jadi dalam pembangunan ekonomi di Malaysia?",PAIR,2,
+  "Sumber semula jadi mewujudkan peluang pekerjaan dan menyumbang kepada kemajuan infrastruktur.",
+  {items:["Pendidikan","Peluang pekerjaan","Kemajuan infrastruktur","Penjanaan sisa domestik"]}),
+P(1,"110","Apakah sumber mineral yang berkaitan dengan pembinaan infrastruktur berikut?",["Gas asli","Petroleum","Bijih timah","Arang batu"],2,
+  "Landasan kereta api Taiping ke Kuala Sepetang dibina untuk mengangkut bijih timah ke pelabuhan.",
+  {rows:[["Tahun","Lewat kurun ke-19"],["Landasan kereta api","Taiping ke Kuala Sepetang"]]}),
+P(1,"","Bandar yang dikaitkan dengan penerokaan sumber di atas ialah",["Raub","Bintulu","Sandakan","Kuala Pilah"],1,
+  "Bintulu di Sarawak terkenal dengan penerokaan petroleum dan gas asli. Raub terkenal dengan emas.",
+  {stim:["Petroleum","Gas asli"],bullets:true,lead:"Maklumat di bawah berkaitan penerokaan sumber semula jadi."}),
+
+/* BAB 7 */
+P(2,"116","Antara berikut, yang manakah kegiatan ekonomi primer?",["Pertanian","Pembuatan","Perdagangan","Pelancongan"],0,
+  "Sektor primer mengeluarkan sumber secara langsung daripada alam, contohnya pertanian."),
+P(2,"117","Foto 1 menunjukkan suatu kegiatan ekonomi. Apakah jenis kegiatan ekonomi tersebut?",["Sektor primer","Sektor tertier","Sektor sekunder","Sektor pertengahan"],2,
+  "Pembinaan mengubah bahan mentah menjadi struktur atau produk, maka tergolong dalam sektor sekunder.",
+  {fig:photo("Foto 1","Sebuah bangunan sedang dibina dengan kren dan perancah.")}),
+P(2,"117","Apakah kegiatan ekonomi yang tergolong dalam sektor tertier?",PAIR,1,
+  "Kewangan dan pelancongan ialah perkhidmatan, iaitu sektor tertier. Pembalakan dan penternakan ialah sektor primer.",
+  {items:["Kewangan","Pembalakan","Penternakan","Pelancongan"]}),
+P(2,"117","Apakah sektor ekonomi yang dikaitkan dalam maklumat berikut?",["Sektor primer","Sektor tertier","Sektor sekunder","Sektor campuran"],1,
+  "Menawarkan pelbagai perkhidmatan ialah ciri sektor tertier.",
+  {stim:["Menawarkan pelbagai perkhidmatan","Sektor yang penting untuk pembangunan negara"],bullets:true}),
+P(2,"118","Apakah tanaman yang berkaitan di kawasan berikut?",["Getah","Kelapa","Lada hitam","Kelapa sawit"],0,
+  "Tenom, Lahad Datu dan Sri Aman ialah kawasan penanaman getah.",
+  {stim:["Tenom","Lahad Datu","Sri Aman"],bullets:true}),
+P(2,"118","Peta 1 menunjukkan taburan tanaman pertanian di Malaysia. Apakah tanaman penting yang ditanam di kawasan X dan Y?",["Getah","Lada hitam","Kelapa sawit","Sayur-sayuran"],3,
+  "Sayur-sayuran ditanam di kawasan tanah tinggi yang sejuk di Semenanjung Malaysia dan Sabah.",
+  {fig:map([["X",106,72],["Y",338,58]])}),
+P(2,"118","Berdasarkan Peta 2, kawasan berlorek manakah penting dengan tanaman nanas?",["A","B","C","D"],1,
+  "Nanas ditanam secara komersial terutamanya di Johor, iaitu kawasan B.",
+  {fig:map([["A",88,32],["B",142,148],["C",255,108],["D",345,52]])}),
+P(2,"120","Apakah negeri yang berkaitan di kawasan perindustrian berikut?",["Sabah","Melaka","Kelantan","Terengganu"],1,
+  "Alor Gajah dan Batu Berendam ialah kawasan perindustrian di Melaka.",
+  {stim:["Alor Gajah","Batu Berendam"],bullets:true}),
+P(2,"122–123","Antara berikut, manakah kawasan pelancongan yang terletak di Sarawak?",PAIR,3,
+  "Taman Negara Niah dan Pantai Damai (Santubong) ada di Sarawak. Rantau Abang di Terengganu dan Pulau Sipadan di Sabah.",
+  {items:["Rantau Abang","Pulau Sipadan","Taman Negara Niah","Pantai Damai (Santubong)"]}),
+P(2,"124","Apakah kegiatan ekonomi yang sesuai dijalankan di kawasan pinggir laut?",PAIR,0,
+  "Kawasan pinggir laut sesuai untuk perikanan dan pelancongan.",
+  {items:["Perikanan","Pelancongan","Perindustrian","Pengangkutan"]}),
+P(2,"124","Apakah tanih yang sesuai bagi tanaman kelapa sawit?",["Beris","Pasir","Laterit","Aluvium"],3,
+  "Tanih aluvium yang subur dan lembap sesuai untuk kelapa sawit."),
+P(2,"125","Antara berikut pasangan manakah yang betul?",["Kaolin – Minyak pelincir","Batu kapur – Tembikar","Getah – Sarung tangan","Kayu balak – Jubin"],2,
+  "Getah ialah bahan mentah sarung tangan. Kaolin untuk tembikar, batu kapur untuk simen, dan kayu balak untuk perabot.",
+  {stim:["Jadual: Bahan mentah – Kegiatan ekonomi"]}),
+P(2,"126","Apakah dasar kerajaan yang berkaitan dalam maklumat berikut?",["Dasar Pertanian Negara","Pelan Induk Perindustrian","Dasar Agro Makanan Negara","Dasar Pendidikan Kebangsaan"],0,
+  "Dasar Pertanian Negara bertujuan memaksimumkan sumbangan sektor pertanian kepada KDNK.",
+  {stim:["Memaksimumkan sumbangan sektor pertanian kepada Keluaran Dalam Negara Kasar (KDNK)"]}),
+P(2,"126","Apakah peranan utama Lembaga Kemajuan Tanah Persekutuan (FELDA)?",["Membuka kawasan pertanian baharu","Membuka taman perindustrian baharu","Menawarkan latihan dalam bidang perindustrian","Menjalankan penanaman semula getah untuk pekebun kecil"],0,
+  "FELDA ditubuhkan untuk membuka tanah pertanian baharu dan menempatkan peneroka."),
+P(2,"127","Sektor ekonomi yang manakah berkaitan dengan teknologi berikut?",["Perikanan","Perindustrian","Perkhidmatan","Perlombongan"],0,
+  "Teknologi gema bunyi mengesan kawasan ikan dan pembiakan baka meningkatkan hasil perikanan.",
+  {stim:["Gema bunyi","Pembiakan baka"],bullets:true}),
+P(2,"127","Rajah 1 menunjukkan contoh kegiatan ekonomi yang melibatkan teknologi Sistem Maklumat Geografi (GIS). Apakah kegiatan ekonomi yang dikaitkan dengan X?",["Perhutanan","Penternakan","Perkhidmatan","Perlombongan"],2,
+  "GIS ialah teknologi dalam sektor perkhidmatan, contohnya memetakan kawasan, mengesan kawasan bencana dan menganggarkan guna tanah.",
+  {stim:["Pemetaan kawasan","Mengesan kawasan bencana","Menganggarkan guna tanah"],bullets:true,lead:"Rajah 1: tiga kegiatan GIS bertindih pada kawasan X."}),
+P(2,"129","Antara berikut, manakah kepentingan kegiatan ekonomi di Malaysia?",PAIR,3,
+  "Kegiatan ekonomi meningkatkan taraf hidup dan memajukan ekonomi negara. Peningkatan import bukan kepentingan.",
+  {items:["Pendidikan","Peningkatan import","Peningkatan taraf hidup","Kemajuan ekonomi negara"]}),
+P(2,"129","Apakah petunjuk taraf hidup penduduk di Malaysia?",PAIR,1,
+  "Tahap pendidikan dan perumahan yang selesa ialah petunjuk taraf hidup.",
+  {items:["Tahap pendidikan","Migrasi penduduk","Peluang pekerjaan","Perumahan yang selesa"]}),
+P(2,"130","Apakah sektor ekonomi yang mendorong proses pembandaran bandar berikut?",["Pendidikan","Perhutanan","Perindustrian","Perkhidmatan"],2,
+  "Shah Alam dan Bayan Lepas berkembang menjadi bandar kerana kawasan perindustrian.",
+  {stim:["Shah Alam","Bayan Lepas"],bullets:true}),
+P(2,"130","Bagaimanakah langkah yang diambil oleh kerajaan bagi mengurangkan import?",["Mengaji tenaga buruh asing","Melakukan pemindahan teknologi","Meluaskan terminal lapangan terbang","Menggalakkan sektor Industri Kecil Sederhana (IKS)"],3,
+  "Sektor IKS meningkatkan pengeluaran barangan tempatan untuk menggantikan barangan import.")
+];
+
+/* ---------- Pembantu ---------- */
+function $(s){return document.querySelector(s);}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ");}
+function reduce(){return window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;}
+function getBest(m){try{return parseInt(localStorage.getItem("msm-best-"+m),10)||0;}catch(e){return 0;}}
+function setBest(m,v){try{localStorage.setItem("msm-best-"+m,String(v));}catch(e){}}
+
+function mapSVG(m){
+  var pins=m.map(function(p){return '<g class="pin"><circle cx="'+p[1]+'" cy="'+p[2]+'" r="12"/><text x="'+p[1]+'" y="'+p[2]+'">'+p[0]+'</text></g>';}).join("");
+  return '<svg viewBox="0 0 400 200" role="img" aria-label="Peta ringkas Malaysia dengan kawasan bertanda">'+
+    '<path class="land" d="M70 12L100 8L112 30L108 55L125 80L140 110L150 140L158 160L142 170L128 160L112 135L100 105L88 75L76 50L66 30Z"/>'+
+    '<path class="land faint" d="M210 125L240 142L270 125L300 105L322 78L335 92L345 100L330 125L300 150L270 170L235 165L215 140Z"/>'+
+    '<path class="land" d="M210 125L240 100L275 80L305 62L322 78L300 105L270 125L240 142Z"/>'+
+    '<path class="land" d="M322 40L350 22L380 32L372 60L352 80L335 92L322 78L305 62L312 48Z"/>'+
+    '<line class="compass-l" x1="30" y1="52" x2="30" y2="22"/><path class="compass-l" d="M25 28L30 20L35 28" fill="none"/><text class="compass" x="30" y="66">U</text>'+
+    pins+'</svg>';
+}
+function figHTML(f){
+  if(!f)return "";
+  if(f.t==="photo")return '<figure class="photo"><span class="tag">'+esc(f.n)+' · gambaran foto</span><figcaption>'+esc(f.cap)+'</figcaption></figure>';
+  return '<figure class="mapfig">'+mapSVG(f.m)+'<figcaption>Peta ringkas Malaysia, bukan mengikut skala.</figcaption></figure>';
+}
+function stimHTML(q){
+  var h="";
+  if(q.lead)h+='<p>'+esc(q.lead)+'</p>';
+  if(q.rows)h+=q.rows.map(function(r){return '<div class="kv"><b>'+esc(r[0])+'</b><span>'+esc(r[1])+'</span></div>';}).join("");
+  else if(q.items)h+='<ol>'+q.items.map(function(i){return '<li>'+esc(i)+'</li>';}).join("")+'</ol>';
+  else if(q.stim&&q.bullets)h+='<ul>'+q.stim.map(function(i){return '<li>'+esc(i)+'</li>';}).join("")+'</ul>';
+  else if(q.stim)h+=q.stim.map(function(i){return '<p>'+esc(i)+'</p>';}).join("");
+  return h?'<div class="stim">'+h+'</div>':"";
+}
+
+/* ---------- Keadaan ---------- */
+var S={};
+
+function show(id){
+  ["start","game","end"].forEach(function(s){$("#"+s).hidden=(s!==id);});
+  window.scrollTo(0,0);
+}
+function paintBest(){
+  var parts=[];
+  [["1","Tahap 1"],["2","Tahap 2"],["all","Cabaran Penuh"]].forEach(function(x){var b=getBest(x[0]);if(b)parts.push(x[1]+": "+fmt(b));});
+  var el=$("#bestline");
+  if(parts.length){el.hidden=false;el.textContent="Markah terbaik anda — "+parts.join(" · ");}else el.hidden=true;
+}
+
+function start(mode,custom){
+  var list;
+  if(custom){list=custom.slice();}
+  else{
+    var pick=function(c){return Q.filter(function(x){return x.c===c;});};
+    var rnd=$("#rand").checked;
+    var prep=function(a){a=a.slice();return rnd?shuffle(a):a;};
+    if(mode==="1")list=prep(pick(1));
+    else if(mode==="2")list=prep(pick(2));
+    else list=prep(pick(1)).concat(prep(pick(2)));
+  }
+  S={mode:mode,list:list,i:0,score:0,streak:0,bestStreak:0,right:0,log:[],timer:$("#timer").checked,
+     hints:3,extra:2,answered:false,used5050:false,save:!custom,left:LIMIT,base:LIMIT,t0:0,tid:null};
+  show("game");
+  render();
+}
+
+function stopTimer(){if(S.tid){clearInterval(S.tid);S.tid=null;}}
+function startTimer(){
+  stopTimer();
+  $("#tbar").hidden=!S.timer;
+  $("#lmore").hidden=!S.timer;
+  if(!S.timer)return;
+  S.base=LIMIT;S.t0=performance.now();
+  S.tid=setInterval(tick,100);
+  tick();
+}
+function tick(){
+  if(S.answered){stopTimer();return;}
+  S.left=Math.max(0,S.base-(performance.now()-S.t0));
+  var f=$("#tfill");
+  f.style.transform="scaleX("+Math.min(1,S.left/LIMIT)+")";
+  f.className="fill"+(S.left<5000?" danger":S.left<10000?" warn":"");
+  $("#ttxt").textContent=Math.ceil(S.left/1000)+" s";
+  if(S.left<=0)answer(-1);
+}
+function mult(){return 1+0.25*Math.min(S.streak,4);}
+
+function setHud(){
+  var q=S.list[S.i];
+  $("#lvl").textContent=CH[q.c].n+" · "+CH[q.c].t;
+  $("#score").textContent=fmt(S.score);
+  $("#pfill").style.transform="scaleX("+(S.i/S.list.length)+")";
+  $("#ptxt").textContent=(S.i+1)+" / "+S.list.length;
+  var st=$("#streak");
+  st.textContent=S.streak>=2?("Rentetan "+S.streak+" · ×"+mult()):("Rentetan "+S.streak);
+  st.className="chip num"+(S.streak>=2?" hot":"");
+  var b=$("#l5050");b.textContent="50/50 ×"+S.hints;b.disabled=(S.hints<=0||S.answered||S.used5050);
+  var m=$("#lmore");m.textContent="+15 saat ×"+S.extra;m.disabled=(S.extra<=0||S.answered);
+}
+
+function render(){
+  var q=S.list[S.i];
+  S.answered=false;S.used5050=false;
+  var opts=q.o.map(function(t,k){
+    return '<button class="opt" type="button" data-k="'+k+'"><span class="k">'+"ABCD"[k]+'</span><span class="t">'+esc(t)+'</span><span class="mark" aria-hidden="true"></span></button>';
+  }).join("");
+  $("#card").innerHTML=
+    (q.ms?'<div class="ms">Buku Teks m.s. '+esc(q.ms)+'</div>':'')+
+    '<h2 class="qt">'+esc(q.q)+'</h2>'+
+    figHTML(q.fig)+stimHTML(q)+
+    '<div class="opts" id="opts">'+opts+'</div>'+
+    '<div id="fbbox" aria-live="polite"></div>';
+  setHud();
+  window.scrollTo(0,0);
+  startTimer();
+}
+
+function answer(k){
+  if(S.answered)return;
+  S.answered=true;stopTimer();
+  var q=S.list[S.i],ok=(k===q.a),pts=0,calc="";
+  if(ok){
+    S.streak++;S.bestStreak=Math.max(S.bestStreak,S.streak);S.right++;
+    var base=S.used5050?60:100;
+    var bonus=S.timer?Math.round(Math.min(1,S.left/LIMIT)*50):0;
+    var mm=1+0.25*Math.min(S.streak-1,4);
+    pts=Math.round((base+bonus)*mm);S.score+=pts;
+    calc="("+base+" asas"+(S.timer?" + "+bonus+" masa":"")+") × "+mm;
+  }else{S.streak=0;}
+  S.log.push({q:q,k:k,ok:ok});
+
+  var btns=document.querySelectorAll("#opts .opt");
+  Array.prototype.forEach.call(btns,function(b){
+    var i=+b.getAttribute("data-k");
+    b.disabled=true;
+    if(i===q.a){b.classList.add("correct");b.querySelector(".mark").textContent="✓";}
+    else if(i===k){b.classList.add("wrong");b.querySelector(".mark").textContent="✕";if(!reduce()){b.classList.add("shake");}}
+  });
+
+  var last=(S.i>=S.list.length-1);
+  var nextLabel=last?"Lihat keputusan":(S.list[S.i+1].c!==q.c?"Teruskan ke "+CH[S.list[S.i+1].c].n:"Soalan seterusnya");
+  var title=ok?("Betul! +"+fmt(pts)+" mata"):(k<0?"Masa tamat":"Belum tepat");
+  var detail=ok?'<p class="calc num">'+calc+'</p>':'<p><b>Jawapan betul:</b> '+"ABCD"[q.a]+". "+esc(q.o[q.a])+'</p>';
+  $("#fbbox").innerHTML='<div class="fb '+(ok?"ok":"no")+'"><h3>'+title+'</h3>'+detail+
+    '<p>'+esc(q.why)+'</p>'+(q.ms?'<p class="ref">Rujuk Buku Teks m.s. '+esc(q.ms)+'</p>':'')+
+    '<button class="btn block" id="next" type="button">'+nextLabel+'</button></div>';
+  $("#next").addEventListener("click",next);
+  setHud();
+  var nb=$("#next");nb.focus({preventScroll:true});
+  nb.scrollIntoView({behavior:reduce()?"auto":"smooth",block:"nearest"});
+}
+
+function next(){
+  if(S.i>=S.list.length-1){finish();return;}
+  S.i++;render();
+}
+
+function use5050(){
+  if(S.answered||S.hints<=0||S.used5050)return;
+  var q=S.list[S.i];
+  var wrong=[];for(var i=0;i<q.o.length;i++)if(i!==q.a)wrong.push(i);
+  shuffle(wrong);
+  wrong.slice(0,2).forEach(function(i){
+    var b=document.querySelector('#opts .opt[data-k="'+i+'"]');
+    b.classList.add("gone");b.disabled=true;
+  });
+  S.hints--;S.used5050=true;setHud();
+}
+function useMore(){
+  if(S.answered||S.extra<=0||!S.timer)return;
+  S.base+=15000;S.extra--;setHud();tick();
+}
+
+function rank(p){
+  if(p>=95)return ["Pakar Geografi","Hampir sempurna. Anda menguasai kedua-dua bab."];
+  if(p>=80)return ["Jurupeta Cemerlang","Tinggal beberapa soalan lagi untuk markah penuh."];
+  if(p>=60)return ["Pencari Sumber","Asas anda kukuh. Semak soalan yang salah di bawah."];
+  if(p>=40)return ["Peninjau","Ulang bab yang lemah, kemudian cuba lagi."];
+  return ["Pelajar Baharu","Baca semula buku teks pada muka surat rujukan, kemudian cuba semula."];
+}
+
+function finish(){
+  stopTimer();
+  var n=S.list.length,pct=Math.round(S.right/n*100),r=rank(pct);
+  var prev=getBest(S.mode),isNew=false;
+  if(S.save){if(S.score>prev){setBest(S.mode,S.score);isNew=true;}}
+  paintBest();
+  var chHTML="";
+  [1,2].forEach(function(c){
+    var rows=S.log.filter(function(l){return l.q.c===c;});
+    if(!rows.length)return;
+    var ok=rows.filter(function(l){return l.ok;}).length,p=Math.round(ok/rows.length*100);
+    chHTML+='<div class="row"><b>'+CH[c].n+'</b><div class="track"><div class="fill" style="transform:scaleX('+(p/100)+')"></div></div><span class="pct num">'+ok+'/'+rows.length+'</span></div>';
+  });
+  var wrong=S.log.filter(function(l){return !l.ok;});
+  var rev=wrong.map(function(l,i){
+    return '<li><b>'+(i+1)+'. '+esc(l.q.q)+'</b>'+
+      '<span class="you">Jawapan anda: '+(l.k>=0?esc(l.q.o[l.k]):'tiada (masa tamat)')+'</span>'+
+      '<span class="rt">Jawapan betul: '+esc(l.q.o[l.q.a])+'</span>'+
+      '<span class="why">'+esc(l.q.why)+(l.q.ms?' (m.s. '+esc(l.q.ms)+')':'')+'</span></li>';
+  }).join("");
+  $("#resbox").innerHTML=
+    '<div class="res-top"><div class="ring" style="--p:'+pct+'"><div class="num">'+pct+'%</div></div>'+
+    '<h2>'+r[0]+'</h2><p style="color:var(--muted);max-width:36ch">'+r[1]+'</p></div>'+
+    '<div class="stats"><div class="stat"><small>Betul</small><b class="num">'+S.right+' / '+n+'</b></div>'+
+    '<div class="stat"><small>Markah</small><b class="num">'+fmt(S.score)+'</b></div>'+
+    '<div class="stat"><small>Rentetan terbaik</small><b class="num">'+S.bestStreak+'</b></div></div>'+
+    (isNew&&S.save?'<p class="chip hot" style="justify-self:start">Markah terbaik baharu</p>':'')+
+    '<div class="chbars">'+chHTML+'</div>'+
+    '<div class="actions">'+
+      (wrong.length?'<button class="btn" id="redo" type="button">Ulang '+wrong.length+' soalan yang salah</button>':'')+
+      '<button class="btn ghost" id="again" type="button">Main semula</button></div>'+
+    (wrong.length?'<details class="review"><summary>Semak '+wrong.length+' jawapan yang salah</summary><ol>'+rev+'</ol></details>':'');
+  var rb=$("#redo");if(rb)rb.addEventListener("click",function(){start(S.mode,wrong.map(function(l){return l.q;}));});
+  $("#again").addEventListener("click",function(){show("start");});
+  show("end");
+}
+
+/* ---------- Peristiwa ---------- */
+document.querySelectorAll(".mode").forEach(function(b){
+  b.addEventListener("click",function(){start(b.getAttribute("data-mode"));});
+});
+$("#card").addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest(".opt");
+  if(b&&!b.disabled)answer(+b.getAttribute("data-k"));
+});
+$("#l5050").addEventListener("click",use5050);
+$("#lmore").addEventListener("click",useMore);
+$("#quit").addEventListener("click",function(){stopTimer();show("start");});
+document.addEventListener("keydown",function(e){
+  if($("#game").hidden||S.answered||e.ctrlKey||e.metaKey||e.altKey)return;
+  var map={a:0,b:1,c:2,d:3,"1":0,"2":1,"3":2,"4":3};
+  var k=map[String(e.key).toLowerCase()];
+  if(k===undefined)return;
+  var b=document.querySelector('#opts .opt[data-k="'+k+'"]');
+  if(b&&!b.disabled)answer(k);
+});
+
+paintBest();
+})();
+</script>
+
+</body></html>
